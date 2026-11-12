@@ -634,8 +634,8 @@ const I={
 };
 
 /* ---------- State ---------- */
-const initial=()=>({route:'welcome',slide:0,first:'',last:'',goals:[],monitor:true,card:null,budget:500,view:'bar',freq:'week',manual:null,ciDraft:{},ciFrom:'app',ciRemind:true,logAmt:'',logCat:null,cmode:null,applied:false,pack:'simple',ownOpen:false,sugDone:false,emailAsk:false,wAsk:false,liked:[],mday:'1',mdayN:'5',accounts:[],pick:[],
-  widget:{on:false,size:'medium',theme:'green',amounts:false},recap:['rings','score','pace','category','surprise'],sIdx:-1,revealed:false,choice:null,save:25,saveCustom:false,saveTxt:'',time:'09:00',schedule:'day',bureau:'TransUnion',channels:['push'],email:'you@example.com',deliverErr:false,phone:'',day:'Sun',
+const initial=()=>({route:'welcome',slide:0,first:'',last:'',email:'',pw:'',goals:[],monitor:true,card:null,budget:500,view:'bar',freq:'week',manual:null,ciDraft:{},ciFrom:'app',ciRemind:true,logAmt:'',logCat:null,cmode:null,applied:false,pack:'simple',ownOpen:false,sugDone:false,emailAsk:false,wAsk:false,liked:[],mday:'1',mdayN:'5',accounts:[],pick:[],
+  widget:{on:false,size:'medium',theme:'green',amounts:false},recap:['rings','score','pace','category','surprise'],sIdx:-1,revealed:false,choice:null,save:25,saveCustom:false,saveTxt:'',time:'09:00',schedule:'day',bureau:'TransUnion',channels:['push'],deliverErr:false,phone:'',day:'Sun',
   storyI:0,storyFrom:'ready',agree:false,verified:false,linked:false,tab:'home',flow:'out',open:null,selDay:19,sheet:null,toast:null,hint:false});
 let S=initial(), lastRoute=null;
 
@@ -1006,8 +1006,8 @@ const R={
   return Screen(`<div class="body" style="display:flex;flex-direction:column;padding-top:${v?44:20}px"><div>${art}</div><div style="text-align:center;margin-top:${v?40:128}px"><div style="font-size:24px;font-weight:800;line-height:1.25">${h}</div><div style="margin-top:14px;font-size:18px">${s}</div></div></div>
   <div class="foot"><div class="dots">${WELCOME.map((_,i)=>`<button class="${i===S.slide?'on':''}" data-act="slide" data-v="${i}" aria-label="Slide ${i+1}"></button>`).join('')}</div><button class="btn" data-go="signup">Sign Up</button><button class="btn outline" data-act="toast" data-v="Sign in is outside this prototype. Tap Sign Up to explore.">Sign In</button></div>`)},
  signup(){return Screen(`${Top('welcome')}<div class="body"><h1>Create your account</h1><div class="sub">Sign up and start making progress toward your financial goals.</div>
-  <div class="field"><label>Email address</label><div class="hint">For signing in and important account alerts. We never sell it.</div><input class="input" value="you@example.com" readonly></div>
-  <div class="field"><label>Password</label><div class="hint">Must be at least 8 characters</div><input class="input" type="password" value="prototype" readonly></div>
+  <div class="field"><label>Email address</label><div class="hint">For signing in and important account alerts. We never sell it.</div><input class="input" type="text" inputmode="email" data-bind="email" value="${esc(S.email)}" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="you@example.com"></div>
+  <div class="field"><label>Password</label><div class="hint">Must be at least 8 characters. This is a prototype, so don’t use a real password.</div><input class="input" type="password" data-bind="pw" value="${esc(S.pw)}" autocomplete="off" placeholder="Type anything"></div>
   <div class="fine">By creating an account, you accept <span class="link">Terms of Service</span> and <span class="link">Privacy Policy.</span></div>
   <button class="check" data-act="monitor"><span class="box ${S.monitor?'on':''}">${I.check}</span>Enable credit monitoring</button>
   <button class="btn" style="margin-top:24px" data-go="basics">Sign up</button><button class="btn text" style="margin-top:8px" data-act="toast" data-v="Log in is outside this prototype.">Log in</button></div>`)},
