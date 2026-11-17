@@ -507,23 +507,22 @@ input[type=range]{width:100%;margin-top:14px;accent-color:var(--green);height:32
 .sbtn.dim{opacity:.4}
 .outcome{margin-top:12px;padding:12px 14px;border-radius:10px;background:color-mix(in srgb,currentColor 12%,transparent);font-size:14.5px;line-height:1.4;font-weight:500}
 .outcome b{font-weight:700}
-.irlq .ask{font-size:15px;margin-bottom:8px}.irlq .sbtn{padding:9px 16px;font-size:14.5px}.irlq .sbtn.dim{display:none}
 .tm{margin:16px 0 12px}
-.tmk{font-size:13px;font-weight:600;opacity:.8}
-.tmn{font-size:30px;font-weight:800;letter-spacing:-.01em;line-height:1.1;margin-top:2px}
-.tml{position:relative;margin-top:12px}
-.tmmarks{position:relative;height:40px}
+.tmk{font-size:15px;font-weight:600;opacity:.8}
+.tmn{font-size:34px;font-weight:800;letter-spacing:-.01em;line-height:1.1;margin-top:2px}
+.tml{position:relative;margin-top:22px}
+.tmmarks{position:relative;height:48px}
 .tmm{position:absolute;bottom:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;animation:fadeIn .5s both}
-.tmm span{font-size:12px;font-weight:700;line-height:1.2;text-align:center;white-space:nowrap;padding-bottom:7px;position:relative}
+.tmm span{font-size:14px;font-weight:700;line-height:1.2;text-align:center;white-space:nowrap;padding-bottom:7px;position:relative}
 .tmm span::after{content:'';position:absolute;left:50%;bottom:0;width:1.5px;height:6px;background:currentColor}
-.tmm em{display:block;font-style:normal;font-weight:500;font-size:11px;opacity:.75}
-.tmtrack{position:relative;height:8px;border-radius:4px;background:color-mix(in srgb,currentColor 16%,transparent)}
-.tmfill{position:absolute;left:0;top:0;bottom:0;width:100%;border-radius:4px;background:currentColor;transform-origin:left;animation:growX 2.4s .3s cubic-bezier(.4,0,.2,1) both}
-.tmdot{position:absolute;top:50%;left:0;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;background:#0B120E;box-shadow:0 0 0 3px #C8F56A;z-index:1}
-.tmsl{position:absolute;right:-2px;top:-6px;width:5px;height:20px;border-radius:2px;background:#E2462C;animation:fadeIn .4s 2.6s both}
-.tmends{display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-top:8px}
-.tmslab{font-size:11.5px;line-height:1.3;text-align:right;margin:4px 0 0 30%;opacity:.8;animation:fadeIn .5s 2.7s both}
-.tmhope{font-size:14.5px;line-height:1.4;padding:11px 13px;border-radius:10px;background:color-mix(in srgb,currentColor 10%,transparent);margin-bottom:14px}
+.tmm em{display:block;font-style:normal;font-weight:500;font-size:12.5px;opacity:.75}
+.tmtrack{position:relative;height:12px;border-radius:6px;background:color-mix(in srgb,currentColor 16%,transparent)}
+.tmfill{position:absolute;left:0;top:0;bottom:0;width:100%;border-radius:6px;background:currentColor;transform-origin:left;animation:growX 2.4s .3s cubic-bezier(.4,0,.2,1) both}
+.tmdot{position:absolute;top:50%;left:0;width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;background:#0B120E;box-shadow:0 0 0 3px #C8F56A;z-index:1}
+.tmsl{position:absolute;right:-2px;top:-7px;width:6px;height:26px;border-radius:2px;background:#E2462C;animation:fadeIn .4s 2.6s both}
+.tmends{display:flex;justify-content:space-between;font-size:14px;font-weight:700;margin-top:10px}
+.tmslab{font-size:13px;line-height:1.35;text-align:right;margin:6px 0 0 25%;opacity:.8;animation:fadeIn .5s 2.7s both}
+.tmhope{font-size:16px;line-height:1.4;padding:13px 15px;border-radius:12px;background:color-mix(in srgb,currentColor 10%,transparent);margin:22px 0 14px}
 .tmhope b{font-weight:800}
 .stats{display:grid;gap:7px;margin-bottom:14px}
 .stats div{display:grid;grid-template-columns:82px 1fr 34px;align-items:center;gap:8px;font-size:13px;font-weight:600}
@@ -975,10 +974,9 @@ function curFull(plain){
   const btns=(opts)=>`<div class="sbtns">${opts.map(([v,t])=>`<button class="sbtn ${c===v?'on':c?'dim':''}" data-act="schoose" data-v="${v}"><span>${t}</span></button>`).join('')}</div>`;
   const tag='Stay curious · New this week';
   if(k==='billion'){const sv=S.save||10,yrs=Math.round(1e9/(sv*52)),yr=sv*52;
-    const out={a:'<b>Balanced.</b> Half for later, half for now. That’s how real wealth starts: boring and steady.',b:'<b>Fair.</b> Joy counts too. Next time, try moving even $5 to savings first. Small wins stack.',c:'<b>Big brain.</b> Paying down a balance can cut interest and help your score. Future you is cheering.'}[c];
     const hope=`No billion, but ${$m(sv)} a week is <b>${$m(yr)} a year</b>. That’s real money.`;
     return {surprise:1,tag,bg:3,h:'Billionaire speedrun',line:`Saving ${$m(sv)} a week, you’d hit $1 billion in about ${yrs.toLocaleString('en-US')} years.${plain?` ${hope.replace(/<\/?b>/g,'')}`:''}`,
-      viz:`<div class="reveal">${timeMachine(yrs)}<div class="tmhope">${hope}</div><div class="irlq"><div class="ask">Bonus round: you get $50 for your birthday. What do you do?</div>${btns([['a','Save half, spend half'],['b','Spend it all on a new fit'],['c','Put it toward a card bill']])}</div>${c?`<div class="outcome">${out}</div>`:''}${shuf}</div>`}}
+      viz:`<div class="reveal">${timeMachine(yrs)}<div class="tmhope">${hope}</div>${shuf}</div>`}}
   if(k==='peers'){const v=S.verified,avg=679,me=742,W=340,H=120,x=s=>10+(s-300)/550*320;let path='';for(let sc=300;sc<=850;sc+=10){const y=H-18-88*Math.exp(-Math.pow(sc-avg,2)/(2*72*72));path+=(sc===300?'M':'L')+x(sc).toFixed(1)+' '+y.toFixed(1)}
     return {surprise:1,tag,bg:0,h:v?`${me-avg} points above your age group`:'Where do you stand?',line:v?'Your sample score beats the average for people 18 to 24. And you’re just getting started.':`People 18 to 24 average around ${avg}. Unlock your free score to see where you land.`,cheer:v?'You’re ahead of the curve. Literally.':'',
       viz:`<div class="reveal"><svg class="fv" viewBox="0 0 ${W} ${H+8}" role="img" aria-label="Score spread for people your age"><path d="${path} L${x(850)} ${H-18} L${x(300)} ${H-18}Z" fill="currentColor" opacity=".18"/><path class="dl" pathLength="100" d="${path}" fill="none" stroke="currentColor" stroke-width="3"/><line x1="${x(avg)}" y1="12" x2="${x(avg)}" y2="${H-18}" stroke="currentColor" stroke-width="2" stroke-dasharray="3 5"/><text x="${x(avg)-6}" y="16" text-anchor="end" font-size="12" font-weight="600" fill="currentColor">Age avg ${avg}</text>${v?`<line class="popin" style="animation-delay:1s" x1="${x(me)}" y1="22" x2="${x(me)}" y2="${H-18}" stroke="#C8F56A" stroke-width="4"/><circle class="popin" style="animation-delay:1.1s" cx="${x(me)}" cy="22" r="7" fill="#C8F56A"/><text x="${x(me)+12}" y="27" font-size="13" font-weight="700" fill="currentColor">You ${me}</text>`:`<text x="${x(790)}" y="40" text-anchor="middle" font-size="30" font-weight="700" fill="#C8F56A">?</text>`}<text x="${x(300)}" y="${H}" font-size="11" fill="currentColor" opacity=".8">300</text><text x="${x(850)}" y="${H}" text-anchor="end" font-size="11" fill="currentColor" opacity=".8">850</text></svg>${v?'':`<button class="btn" style="background:#fff;color:var(--green-d);height:46px;font-size:15px;margin-top:10px" data-go="address">See my real score</button>`}<div class="disc">${I.info}<span>Sample comparison. Averages vary by source and score model.</span></div>${shuf}</div>`}}
@@ -1191,9 +1189,9 @@ const NOTES={
  'p-budget':['New · Setup 2','A plan of their own','A budget and a savings goal, with no income questions. It starts at $500 with low presets, since most people we heard from spend around that. Money Rings measure only against this, so they stay judgment-free.'],
  'p-view':['Customize','Everyday view, not the recap','This choice sets the live view on Home and the widget. Options: your progress bar and heat map, plus a Copilot-style category breakdown, a daily spending goal and Money Rings.'],
  'p-widget':['Customize','Opt-in widget, offered later','The widget mirrors the view just chosen. Dollar amounts are hidden by default: the home screen shows progress and percentages instead (share of budget left, share of today\u2019s goal used, share by category), so a glance still works without exposing balances. People can turn amounts on. Size and color are the habit hook: something that feels like theirs on the home screen.'],
- 'p-recap':['Customize','Packs instead of ten checkboxes','Three starter packs, with the recommended one marked For you. Picking cards one by one is still there, folded away. A Stay curious card is on by default and always comes first. It changes every time (a BitLife-style money sim, an age-group score comparison, a myth-or-fact quiz, a future-you savings projection or a level-up). They pick how often first (weekly, every two weeks or monthly), so nothing assumes a cadence. Each card shows a tiny example of what it holds. Nine cards, with no limit on how many they pick. The credit score gauge is here for everyone, and Card usage becomes Credit starter for non-holders.'],
+ 'p-recap':['Customize','Packs instead of ten checkboxes','Three starter packs, with the recommended one marked For you. Picking cards one by one is still there, folded away. A Stay curious card is on by default and always comes first. It changes every time (a billionaire timeline, an age-group score comparison, a myth-or-fact quiz, a future-you savings projection or a level-up). They pick how often first (weekly, every two weeks or monthly), so nothing assumes a cadence. Each card shows a tiny example of what it holds. Nine cards, with no limit on how many they pick. The credit score gauge is here for everyone, and Card usage becomes Credit starter for non-holders.'],
  'p-delivery':['Customize','Delivered their way','Any mix of push, email and text, on any day and time. Paycheck sync times the recap to when money lands, which is when people are most likely to act.'],
- story:['The payoff','Value before any sensitive data','Tap anywhere to skip ahead (left edge goes back), and press and hold to pause, like stories in other apps. The last card is Stay curious: a quick money sim, quiz or projection that teaches instead of just counting, and changes every time. In the email it leads instead. Editorial style from the motion reference: flat color blocks, wide uppercase type, headline numbers in a cut band, and a cover with rolling dates where dots mark no-spend days. The user sees a finished recap before being asked for address or SSN. Each card animates in and auto-advances; pause anytime. When they hit a goal, the card cheers them on. Tap a donut slice or a day to explore.'],
+ story:['The payoff','Value before any sensitive data','Tap anywhere to skip ahead (left edge goes back), and press and hold to pause, like stories in other apps. The last card is Stay curious: a billionaire timeline, quiz or projection that teaches instead of just counting, and changes every time. In the email it leads instead. Editorial style from the motion reference: flat color blocks, wide uppercase type, headline numbers in a cut band, and a cover with rolling dates where dots mark no-spend days. The user sees a finished recap before being asked for address or SSN. Each card animates in and auto-advances; pause anytime. When they hit a goal, the card cheers them on. Tap a donut slice or a day to explore.'],
  ready:['Key moment','Set up later is the primary action','People who skipped the preview land here too, with copy that doesn’t assume they watched it. Tracking spending now offers two equal paths: a 10-second check-in or linking an account. A three-step ladder explains what each piece of information unlocks, so the ask feels earned.'],
  address:['Existing step, changed','Exit at every step','Each field says why it\u2019s needed in one line, and Set up later sits below Continue. Values here are fictional and locked.'],
  ssn:['Existing step, changed','Exit at every step','Plain-language reasons on each field, and a way out. Fictional values only.'],
