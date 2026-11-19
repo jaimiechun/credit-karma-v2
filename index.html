@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Karma View · Simple Setup</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,400;6..12,500;6..12,600;6..12,700;6..12,800;6..12,900&family=Archivo:wdth,wght@62..125,400..800&family=Kaushan+Script&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,400;6..12,500;6..12,600;6..12,700;6..12,800;6..12,900&family=Archivo:wdth,wght@62..125,400..800&display=swap" rel="stylesheet">
 <style>
 :root{
   --green:#008600; --green-d:#005C00; --mint:#D3E9D3; --mint-l:#EEF7EE;
@@ -508,13 +508,12 @@ input[type=range]{width:100%;margin-top:14px;accent-color:var(--green);height:32
 .outcome{margin-top:12px;padding:12px 14px;border-radius:10px;background:color-mix(in srgb,currentColor 12%,transparent);font-size:14.5px;line-height:1.4;font-weight:500}
 .outcome b{font-weight:700}
 .story.s5{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .24  0 0 0 0 .95  0 0 0 0 .64  0 0 0 3 -2.05'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),#1E2547;color:#E9EEFF;--band:#3DF2A6;--bandt:#1E2547}
-.s5 .hb{background:none;color:#3DF2A6;font-family:'Kaushan Script',cursive;text-transform:none;font-weight:400;font-variation-settings:normal;font-size:46px;line-height:1.05;letter-spacing:0;padding:4px 18px 6px 0;margin-left:0;filter:url(#chalk)}
 .s5 .viz{flex:1;display:flex;flex-direction:column;justify-content:center}
 .bz{position:relative}
 .bz1{font-size:19px;line-height:1.35;font-weight:500;opacity:.92;animation:rise .5s .15s both}
 .bz1 b{font-weight:800;color:#3DF2A6}
-.bzn{font-family:'Kaushan Script',cursive;color:#3DF2A6;line-height:1;margin:14px 0 0 -4px;white-space:nowrap;filter:url(#chalk);font-variant-numeric:tabular-nums;animation:rise .6s .25s both}
-.bzy{position:relative;display:inline-block;font-family:'Kaushan Script',cursive;color:#3DF2A6;font-size:40px;line-height:1;margin:2px 0 0 6px;filter:url(#chalk);animation:rise .6s .45s both}
+.bzn{font-family:'Archivo',sans-serif;font-weight:600;letter-spacing:-.015em;font-variation-settings:'wdth' 122;color:#3DF2A6;line-height:.95;margin:14px 0 0 -2px;white-space:nowrap;filter:url(#chalk);font-variant-numeric:tabular-nums;animation:rise .6s .25s both}
+.bzy{position:relative;display:inline-block;font-family:'Archivo',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:-.01em;font-variation-settings:'wdth' 122;color:#3DF2A6;font-size:34px;line-height:1;margin:4px 0 0 0;filter:url(#chalk);animation:rise .6s .45s both}
 .bzs{position:absolute;left:-30px;right:-150px;width:calc(100% + 180px);bottom:-18px;height:30px;overflow:visible}
 .bzs path{fill:none;stroke:#3DF2A6;stroke-width:4;stroke-linecap:round}
 .story .bzs .dl{animation-delay:2.2s;animation-duration:.7s}
@@ -942,7 +941,7 @@ function hiddenCount(){const t=tier();if(t==='linked')return 0;return S.recap.fi
 }
 /* ---------- Billionaire speedrun: brush statement with count-up ---------- */
 function speedBrush(sv,yrs,yr){
-  const n=yrs.toLocaleString('en-US'),fs=n.length<=7?84:n.length<=9?66:54;
+  const n=yrs.toLocaleString('en-US'),fs=n.length<=7?72:n.length<=9?56:46;
   return `<div class="bz"><svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="chalk" x="-5%" y="-10%" width="110%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.5" xChannelSelector="R" yChannelSelector="G" result="d"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -3.2 2.5" result="m"/><feComposite in="d" in2="m" operator="in"/></filter></svg>
    <div class="bz1">Saving ${$m(sv)} a week, you’d hit <b>$1 billion</b> in about</div>
    <div class="bzn" style="font-size:${fs}px"><span data-cu="300" data-dur="2200">${n}</span></div>
