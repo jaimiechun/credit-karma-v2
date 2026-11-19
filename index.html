@@ -515,7 +515,7 @@ input[type=range]{width:100%;margin-top:14px;accent-color:var(--green);height:32
 .mpdots{fill:none;stroke:#0B120E;stroke-opacity:.45;stroke-width:4;stroke-linecap:round;stroke-dasharray:0 11}
 .mpnode circle{fill:#C8F56A;stroke:#0B120E;stroke-width:3}
 .mpnode circle.next{fill:#0B120E}.mpnode circle.ok{fill:#0B120E}
-.mpv{font:800 15px Archivo,system-ui,sans-serif;fill:#0B120E}.mpv.inv{fill:#C8F56A}
+.mpv{font:900 13px Archivo,system-ui,sans-serif;fill:#0B120E}.mpv.inv{fill:#C8F56A}
 .mpn{font:800 14px Archivo,system-ui,sans-serif;fill:#0B120E}
 .mps{font:600 12.5px Archivo,system-ui,sans-serif;fill:#0B120E;fill-opacity:.72}
 .boss{fill:#0B120E;stroke:#B3261E;stroke-width:4}
@@ -950,13 +950,13 @@ function slides(plain=false,email=false){
 function hiddenCount(){const t=tier();if(t==='linked')return 0;return S.recap.filter(k=>['day','inout','move'].includes(k)||(t==='checkin'&&k==='category'&&!(S.manual||{}).big&&!((S.manual||{}).logs||[]).length)).length
 }
 /* ---------- Billionaire speedrun: level map from today ---------- */
-const LEVELS=[[1000,'Emergency fund'],[5000,'Safety net'],[10000,'Five-figure club']];
+const LEVELS=[[10000,'Five-figure club','10K']];
 const ttime=w=>{w=Math.ceil(w);if(w<=1)return '1 week';if(w<104)return w+' weeks';const y=w/52;return (y<10?Math.round(y*10)/10:Math.round(y).toLocaleString('en-US'))+' years'};
 function speedLevels(sv){
   const ct=ctxTier(),m=S.manual||{};
   const have=(ct==='sample'||ct==='linked')?sv*4:ct==='checkin'&&m.save?{0:0,s:.5,g:1,m:1.3}[m.save]*sv:0;
-  // nodes bottom to top: start, L1, L2, L3, boss
-  const P=[[58,292],[262,226],[78,160],[262,94],[86,34]];
+  // nodes bottom to top: today, levels, billionaire
+  const N=LEVELS.length,P=[[58,266],[262,152],[86,40]],B=N+1,R=[...Array(N).keys()];
   const seg=i=>{const [xa,ya]=P[i],[xb,yb]=P[i+1],my=(ya+yb)/2;return [[xa,ya],[xa,my],[xb,my],[xb,yb]]};
   const d=c=>`M${c[0]} C${c[1]} ${c[2]} ${c[3]}`.replace(/,/g,' ').replace(/(\d+\.\d)\d+/g,'$1');
   const lerp=(p,q,t)=>[p[0]+(q[0]-p[0])*t,p[1]+(q[1]-p[1])*t];
@@ -964,18 +964,18 @@ function speedLevels(sv){
   const amts=[0,...LEVELS.map(l=>l[0])];
   let cur=LEVELS.findIndex(l=>have<l[0]);if(cur<0)cur=LEVELS.length; // segment you're on
   const t=cur<LEVELS.length?Math.max(0,Math.min(1,(have-amts[cur])/(amts[cur+1]-amts[cur]))):1;
-  const done=[0,1,2].filter(i=>i<cur).map(i=>d(seg(i)));
+  const done=R.filter(i=>i<cur).map(i=>d(seg(i)));
   const part=cur<LEVELS.length&&t>0?split(seg(cur),t):null;
-  const you=cur<LEVELS.length?(part?part[3]:P[cur]):P[3];
+  const you=cur<N?(part?part[3]:P[cur]):P[N];
   const lab=(i,name,sub,col)=>{const [x,y]=P[i],r=x>150,tx=r?x-30:x+30;return `<text x="${tx}" y="${y-3}" text-anchor="${r?'end':'start'}" class="mpn">${name}</text><text x="${tx}" y="${y+14}" text-anchor="${r?'end':'start'}" class="mps"${col?` style="fill:${col}"`:''}>${sub}</text>`};
-  const node=(i,lv)=>{const [x,y]=P[i],ok=have>=amts[i],next=i===cur+1;return `<g class="mpnode popin" style="animation-delay:${(.5+i*.25).toFixed(2)}s"><circle cx="${x}" cy="${y}" r="17" class="${ok?'ok':next?'next':''}"/><text x="${x}" y="${y+5}" text-anchor="middle" class="mpv ${ok||next?'inv':''}">${ok?'✓':lv}</text></g>`};
-  const lvls=LEVELS.map(([amt,n],k)=>{const i=k+1,ok=have>=amt;return node(i,i)+lab(i,n,`${$m(amt)} · ${ok?'Done':ttime((amt-have)/sv)}`)}).join('');
-  const boss=`<g class="popin" style="animation-delay:1.4s"><circle cx="${P[4][0]}" cy="${P[4][1]}" r="24" class="boss"/><text x="${P[4][0]}" y="${P[4][1]+6}" text-anchor="middle" class="mpb">$1B</text></g>${lab(4,'Final boss',ttime(1e9/sv),'#B3261E')}`;
-  const mid=split(seg(3),.5)[3],cx=you[0]>=165?you[0]+31:you[0]-31;
+  const node=(i,lv)=>{const [x,y]=P[i],ok=have>=amts[i],next=i===cur+1;return `<g class="mpnode popin" style="animation-delay:${(.5+i*.25).toFixed(2)}s"><circle cx="${x}" cy="${y}" r="20" class="${ok?'ok':next?'next':''}"/><text x="${x}" y="${y+5}" text-anchor="middle" class="mpv ${ok||next?'inv':''}">${ok?'✓':lv}</text></g>`};
+  const lvls=LEVELS.map(([amt,n,sh],k)=>{const i=k+1,ok=have>=amt;return node(i,sh)+lab(i,n,`${$m(amt)} · ${ok?'Done':ttime((amt-have)/sv)}`)}).join('');
+  const boss=`<g class="popin" style="animation-delay:1.4s"><circle cx="${P[B][0]}" cy="${P[B][1]}" r="24" class="boss"/><text x="${P[B][0]}" y="${P[B][1]+6}" text-anchor="middle" class="mpb">$1B</text></g>${lab(B,'Billionaire',ttime(1e9/sv),'#B3261E')}`;
+  const mid=split(seg(N),.5)[3],cx=you[0]>=165?you[0]+31:you[0]-31;
   return `<div class="mp"><div class="mph">⏱ Your speedrun · ${$m(sv)} a week</div>
-  <svg viewBox="0 0 330 322" class="mpsvg" role="img" aria-label="Level map. ${LEVELS.map(([a,n])=>`${n}, ${$m(a)}: ${have>=a?'done':ttime((a-have)/sv)}`).join('. ')}. Final boss, one billion dollars: ${ttime(1e9/sv)}.">
-   ${[0,1,2].map(i=>`<path d="${d(seg(i))}" class="mptrack"/>`).join('')}
-   <path d="${d(seg(3))}" class="mpdots"/>
+  <svg viewBox="0 0 330 294" class="mpsvg" role="img" aria-label="Level map. ${LEVELS.map(([a,n])=>`${n}, ${$m(a)}: ${have>=a?'done':ttime((a-have)/sv)}`).join('. ')}. Billionaire, one billion dollars: ${ttime(1e9/sv)}.">
+   ${R.map(i=>`<path d="${d(seg(i))}" class="mptrack"/>`).join('')}
+   <path d="${d(seg(N))}" class="mpdots"/>
    ${done.map(x=>`<path d="${x}" class="mpdone dl" pathLength="100"/>`).join('')}${part?`<path d="${d(part)}" class="mpdone dl" pathLength="100"/>`:''}
    <g class="fadein"><rect x="${(mid[0]+14).toFixed(0)}" y="${(mid[1]-11).toFixed(0)}" width="98" height="22" rx="11" class="mpgap"/><text x="${(mid[0]+63).toFixed(0)}" y="${(mid[1]+4).toFixed(0)}" text-anchor="middle" class="mpgt">way, way later</text></g>
    ${lab(0,'Today',have?`${$m(have)} saved`:'Start here')}
