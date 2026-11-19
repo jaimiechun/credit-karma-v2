@@ -507,21 +507,26 @@ input[type=range]{width:100%;margin-top:14px;accent-color:var(--green);height:32
 .sbtn.dim{opacity:.4}
 .outcome{margin-top:12px;padding:12px 14px;border-radius:10px;background:color-mix(in srgb,currentColor 12%,transparent);font-size:14.5px;line-height:1.4;font-weight:500}
 .outcome b{font-weight:700}
-.lvs{margin-top:16px}
-.lvh{margin-bottom:10px}.lvh b{display:block;font-size:16px;font-weight:800}.lvh span{display:block;font-size:13px;opacity:.8;margin-top:2px}
-.lv{display:grid;grid-template-columns:30px 1fr auto;align-items:center;gap:10px;padding:9px 0;border-top:1.5px solid color-mix(in srgb,currentColor 18%,transparent);animation:rise .45s both}
-.lvb{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:14px;font-weight:800;border:2px solid currentColor}
-.lv.now .lvb{background:#0B120E;color:#C8F56A;border-color:#0B120E}
-.lvt{min-width:0}.lvt b{font-size:15px;font-weight:800}.lvt>span{font-size:13px;font-weight:600;opacity:.75;margin-left:6px}
-.lvt i{display:block;height:8px;border-radius:4px;margin:6px 0 3px;background:color-mix(in srgb,currentColor 16%,transparent);overflow:hidden}
-.lvt i u{display:block;height:100%;background:currentColor;border-radius:4px;transform-origin:left;animation:growX .8s .6s cubic-bezier(.2,.7,.2,1) both}
-.lvt small{display:block;font-size:12px;opacity:.75}
-.lv em{font-style:normal;font-size:14px;font-weight:800;white-space:nowrap;align-self:start;padding-top:6px}
-.lvgap{height:18px;margin-left:14px;border-left:2px dashed color-mix(in srgb,currentColor 40%,transparent)}
-.lv.done .lvb{background:currentColor;color:#C8F56A;border-color:currentColor}.lv.done .lvt,.lv.done em{opacity:.6}
-.lv.boss{border-top:none;padding-top:2px}.lv.boss .lvb{border:none;font-size:22px}.lv.boss em{color:#B3261E}
-.lvtip{display:flex;gap:8px;align-items:flex-start;margin-top:10px;padding:10px 12px;border-radius:10px;background:#0B120E;color:#C8F56A;font-size:14px;line-height:1.35;font-weight:600}
-.lvtip b{font-weight:800}
+.mp{margin-top:10px}
+.mph{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;opacity:.8}
+.mpsvg{display:block;width:100%;height:auto;margin-top:4px;overflow:visible}
+.mptrack{fill:none;stroke:#0B120E;stroke-opacity:.14;stroke-width:12;stroke-linecap:round}
+.mpdone{fill:none;stroke:#0B120E;stroke-width:12;stroke-linecap:round}
+.mpdots{fill:none;stroke:#0B120E;stroke-opacity:.45;stroke-width:4;stroke-linecap:round;stroke-dasharray:0 11}
+.mpnode circle{fill:#C8F56A;stroke:#0B120E;stroke-width:3}
+.mpnode circle.next{fill:#0B120E}.mpnode circle.ok{fill:#0B120E}
+.mpv{font:800 15px Archivo,system-ui,sans-serif;fill:#0B120E}.mpv.inv{fill:#C8F56A}
+.mpn{font:800 14px Archivo,system-ui,sans-serif;fill:#0B120E}
+.mps{font:600 12.5px Archivo,system-ui,sans-serif;fill:#0B120E;fill-opacity:.72}
+.boss{fill:#0B120E;stroke:#B3261E;stroke-width:4}
+.mpb{font:900 15px Archivo,system-ui,sans-serif;fill:#C8F56A}
+.mpstart{fill:#0B120E}
+.mpgap{fill:#C8F56A;stroke:#0B120E;stroke-opacity:.35;stroke-width:1.5}
+.mpgt{font:700 italic 11.5px Archivo,system-ui,sans-serif;fill:#0B120E;fill-opacity:.75}
+.mpdot{fill:#C8F56A;stroke:#0B120E;stroke-width:4}
+.mpchip{fill:#0B120E}.mpct{font:900 11px Archivo,system-ui,sans-serif;fill:#C8F56A;letter-spacing:.06em}
+.story .mpyou{animation:pop .4s 1.1s both,bob 1.6s 1.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes bob{50%{transform:translateY(-3px)}}
 .tmhope{font-size:15px;line-height:1.4;padding:11px 13px;border-radius:12px;background:color-mix(in srgb,currentColor 10%,transparent);margin:10px 0 14px}
 .tmhope b{font-weight:800}
 .stats{display:grid;gap:7px;margin-bottom:14px}
@@ -944,19 +949,39 @@ function slides(plain=false,email=false){
 }
 function hiddenCount(){const t=tier();if(t==='linked')return 0;return S.recap.filter(k=>['day','inout','move'].includes(k)||(t==='checkin'&&k==='category'&&!(S.manual||{}).big&&!((S.manual||{}).logs||[]).length)).length
 }
-/* ---------- Billionaire speedrun: levels from today ---------- */
+/* ---------- Billionaire speedrun: level map from today ---------- */
 const LEVELS=[[1000,'Emergency fund'],[5000,'Safety net'],[10000,'Five-figure club']];
 const ttime=w=>{w=Math.ceil(w);if(w<=1)return '1 week';if(w<104)return w+' weeks';const y=w/52;return (y<10?Math.round(y*10)/10:Math.round(y).toLocaleString('en-US'))+' years'};
 function speedLevels(sv){
   const ct=ctxTier(),m=S.manual||{};
   const have=(ct==='sample'||ct==='linked')?sv*4:ct==='checkin'&&m.save?{0:0,s:.5,g:1,m:1.3}[m.save]*sv:0;
-  const cur=Math.max(0,LEVELS.findIndex(l=>have<l[0]));
-  const rows=LEVELS.map(([amt,n],i)=>{const done=have>=amt,now=i===cur&&!done,pct=Math.min(100,have/amt*100);
-    return `<div class="lv ${now?'now':''} ${done?'done':''}" style="animation-delay:${(.3+i*.25).toFixed(2)}s"><span class="lvb">${done?'✓':i+1}</span><div class="lvt"><b>${n}</b><span>${$m(amt)}</span>${now?`<i><u style="width:${Math.max(have?3:0,pct).toFixed(1)}%"></u></i><small>${have?`${$m(have)} saved so far`:'Starts with your first deposit'}</small>`:''}</div><em>${done?'Done':ttime((amt-have)/sv)}</em></div>`}).join('');
-  let tip='';for(const [amt,n] of LEVELS){const d=Math.ceil(amt/sv)-Math.ceil(amt/(sv+5));if(d>=1){tip=`<div class="lvtip"><span aria-hidden="true">⚡</span><span>Add $5 a week and you reach <b>${n}</b> ${ttime(d)} sooner.</span></div>`;break}}
-  return `<div class="lvs"><div class="lvh"><b>Your speedrun at ${$m(sv)} a week</b><span>How long each level takes if you keep going from today.</span></div>${rows}
-   <div class="lvgap" aria-hidden="true"></div>
-   <div class="lv boss" style="animation-delay:1.2s"><span class="lvb">💀</span><div class="lvt"><b>Final boss</b><span>$1 billion</span></div><em>${ttime(1e9/sv)}</em></div>${tip}</div>`}
+  // nodes bottom to top: start, L1, L2, L3, boss
+  const P=[[58,292],[262,226],[78,160],[262,94],[86,34]];
+  const seg=i=>{const [xa,ya]=P[i],[xb,yb]=P[i+1],my=(ya+yb)/2;return [[xa,ya],[xa,my],[xb,my],[xb,yb]]};
+  const d=c=>`M${c[0]} C${c[1]} ${c[2]} ${c[3]}`.replace(/,/g,' ').replace(/(\d+\.\d)\d+/g,'$1');
+  const lerp=(p,q,t)=>[p[0]+(q[0]-p[0])*t,p[1]+(q[1]-p[1])*t];
+  const split=(c,t)=>{const a=lerp(c[0],c[1],t),b=lerp(c[1],c[2],t),e=lerp(c[2],c[3],t),f=lerp(a,b,t),g=lerp(b,e,t),h=lerp(f,g,t);return [c[0],a,f,h]};
+  const amts=[0,...LEVELS.map(l=>l[0])];
+  let cur=LEVELS.findIndex(l=>have<l[0]);if(cur<0)cur=LEVELS.length; // segment you're on
+  const t=cur<LEVELS.length?Math.max(0,Math.min(1,(have-amts[cur])/(amts[cur+1]-amts[cur]))):1;
+  const done=[0,1,2].filter(i=>i<cur).map(i=>d(seg(i)));
+  const part=cur<LEVELS.length&&t>0?split(seg(cur),t):null;
+  const you=cur<LEVELS.length?(part?part[3]:P[cur]):P[3];
+  const lab=(i,name,sub,col)=>{const [x,y]=P[i],r=x>150,tx=r?x-30:x+30;return `<text x="${tx}" y="${y-3}" text-anchor="${r?'end':'start'}" class="mpn">${name}</text><text x="${tx}" y="${y+14}" text-anchor="${r?'end':'start'}" class="mps"${col?` style="fill:${col}"`:''}>${sub}</text>`};
+  const node=(i,lv)=>{const [x,y]=P[i],ok=have>=amts[i],next=i===cur+1;return `<g class="mpnode popin" style="animation-delay:${(.5+i*.25).toFixed(2)}s"><circle cx="${x}" cy="${y}" r="17" class="${ok?'ok':next?'next':''}"/><text x="${x}" y="${y+5}" text-anchor="middle" class="mpv ${ok||next?'inv':''}">${ok?'✓':lv}</text></g>`};
+  const lvls=LEVELS.map(([amt,n],k)=>{const i=k+1,ok=have>=amt;return node(i,i)+lab(i,n,`${$m(amt)} · ${ok?'Done':ttime((amt-have)/sv)}`)}).join('');
+  const boss=`<g class="popin" style="animation-delay:1.4s"><circle cx="${P[4][0]}" cy="${P[4][1]}" r="24" class="boss"/><text x="${P[4][0]}" y="${P[4][1]+6}" text-anchor="middle" class="mpb">$1B</text></g>${lab(4,'Final boss',ttime(1e9/sv),'#B3261E')}`;
+  const mid=split(seg(3),.5)[3],cx=you[0]>=165?you[0]+31:you[0]-31;
+  return `<div class="mp"><div class="mph">⏱ Your speedrun · ${$m(sv)} a week</div>
+  <svg viewBox="0 0 330 322" class="mpsvg" role="img" aria-label="Level map. ${LEVELS.map(([a,n])=>`${n}, ${$m(a)}: ${have>=a?'done':ttime((a-have)/sv)}`).join('. ')}. Final boss, one billion dollars: ${ttime(1e9/sv)}.">
+   ${[0,1,2].map(i=>`<path d="${d(seg(i))}" class="mptrack"/>`).join('')}
+   <path d="${d(seg(3))}" class="mpdots"/>
+   ${done.map(x=>`<path d="${x}" class="mpdone dl" pathLength="100"/>`).join('')}${part?`<path d="${d(part)}" class="mpdone dl" pathLength="100"/>`:''}
+   <g class="fadein"><rect x="${(mid[0]+14).toFixed(0)}" y="${(mid[1]-11).toFixed(0)}" width="98" height="22" rx="11" class="mpgap"/><text x="${(mid[0]+63).toFixed(0)}" y="${(mid[1]+4).toFixed(0)}" text-anchor="middle" class="mpgt">way, way later</text></g>
+   ${lab(0,'Today',have?`${$m(have)} saved`:'Start here')}
+   ${lvls}${boss}
+   <g class="popin mpyou" style="animation-delay:1.1s"><circle cx="${you[0].toFixed(1)}" cy="${you[1].toFixed(1)}" r="7" class="mpdot"/><rect x="${(cx-20).toFixed(1)}" y="${(you[1]-10).toFixed(1)}" width="40" height="20" rx="10" class="mpchip"/><text x="${cx.toFixed(1)}" y="${(you[1]+4).toFixed(1)}" text-anchor="middle" class="mpct">YOU</text></g>
+  </svg></div>`}
 /* ---------- Stay curious (weekly unlock) ---------- */
 const SURP=['billion','peers','myth','future','level'];
 const surpKey=()=>SURP[Math.max(0,S.sIdx)%SURP.length];
