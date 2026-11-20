@@ -952,6 +952,7 @@ function speedBrush(sv,yrs,yr){
 const SURP=['billion','peers','myth','future','level'];
 const surpKey=()=>SURP[Math.max(0,S.sIdx)%SURP.length];
 const collected=()=>3+(S.revealed?1:0);
+function firstSurprise(){S.sIdx=0;S.revealed=false;S.choice=null}
 function newSurprise(){S.sIdx++;S.revealed=false;S.choice=null}
 const fv=(w,weeks)=>{const r=.04/52;return w*((Math.pow(1+r,weeks)-1)/r)};
 const kfmt=v=>v>=1000?'$'+(v/1000).toFixed(1).replace(/\.0$/,'')+'k':$m(v);
@@ -1216,7 +1217,7 @@ function render(){
  jump.value=r;
 }
 function go(r){
- if(r==='story-start'||r==='story')newSurprise();
+ if(r==='story-start')firstSurprise();else if(r==='story')newSurprise();
  if(r==='story-start'){S.storyI=0;S.storyFrom='ready';S.skipped=false;r='story'}
  if(r==='story')S.paused=false;
  if(r==='finish'){if(S.widget.on){S.hint=true;r='homescreen'}else{S.tab='home';r='app'}}
@@ -1293,14 +1294,14 @@ vp.addEventListener('input',e=>{
  if(t.dataset.range){S.budget=+t.value;const v=document.getElementById('bval');if(v)v.textContent=$m(S.budget)}
 });
 jump.addEventListener('change',()=>{const r=jump.value;
- if(r==='story'){S.storyI=0;S.storyFrom='ready';newSurprise()}
+ if(r==='story'){S.storyI=0;S.storyFrom='ready';firstSurprise()}
  if(r==='p-setup'||CSTEPS.includes(r))S.cmode=CSTEPS.includes(r)?'one':null;
  if(!S.card&&(STEPS.indexOf(r)>0||CSTEPS.includes(r)||['story','ready','app','homescreen','email','push'].includes(r)))S.card='yes';
  if(['story','ready','app','homescreen','email','push'].includes(r))S.freq=S.freq||'week';
  if(r==='homescreen')S.hint=S.widget.on;
  S.route=r;S.sheet=null;render()});
 document.querySelector('.nav-btns').addEventListener('click',e=>{const v=e.target.dataset.show;if(!v)return;const [r,t]=v.split(':');
- if(r!=='welcome'&&!S.card)S.card='yes';S.freq=S.freq||'week';if(t)S.tab=t;if(r==='story'){S.storyI=0;S.storyFrom='demo';S.paused=false;S.tab='recap';newSurprise()}S.route=r;S.sheet=null;render()});
+ if(r!=='welcome'&&!S.card)S.card='yes';S.freq=S.freq||'week';if(t)S.tab=t;if(r==='story'){S.storyI=0;S.storyFrom='demo';S.paused=false;S.tab='recap';firstSurprise()}S.route=r;S.sheet=null;render()});
 document.getElementById('restart').onclick=()=>{S=initial();lastRoute=null;render()};
 function fit(){const w=document.getElementById('wrap');if(innerWidth<=440){w.style.transform='';w.style.zoom='';return}const k=Math.min(1,(innerHeight-32)/868);w.style.zoom=k}
 addEventListener('resize',fit);fit();render();
